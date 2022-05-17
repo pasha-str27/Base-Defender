@@ -308,6 +308,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2211904344615037519, guid: ad57676f31e6f614e818b1d2f10e03b3, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 50881f909c23bbb4896f92d195b242e6, type: 3}
+    - target: {fileID: 2211904344615037519, guid: ad57676f31e6f614e818b1d2f10e03b3, type: 3}
+      propertyPath: m_BehaviorType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2211904344615037519, guid: ad57676f31e6f614e818b1d2f10e03b3, type: 3}
+      propertyPath: m_BrainParameters.NumStackedVectorObservations
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5063082705886321669, guid: ad57676f31e6f614e818b1d2f10e03b3, type: 3}
       propertyPath: m_Name
       value: Envirement

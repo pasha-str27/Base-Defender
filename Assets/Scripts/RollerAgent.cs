@@ -19,6 +19,8 @@ public class RollerAgent : Agent
 
     public override void OnEpisodeBegin()
     {
+        print(89);
+
         if (transform.position.y < 0)
         {
             transform.position = transform.parent.position + new Vector3(0, 0.5f, 0);
