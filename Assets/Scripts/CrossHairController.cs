@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class CrossHairController : MonoBehaviour
 {
@@ -6,6 +8,12 @@ public class CrossHairController : MonoBehaviour
 
     Transform _transform;
 
+    [SerializeField] float maxMoveZoneScale = 2.5f;
+    [SerializeField] float minMoveZoneScale = 0.5f;
+
+    [SerializeField] Transform moveZone;
+
+    float stepCoeficient = -1;
 
     private void Update()
     {
@@ -21,6 +29,14 @@ public class CrossHairController : MonoBehaviour
                 dir = movement.y > 0 ? Vector2.up : Vector2.down;
         }
 
+        if (dir != Vector2.zero)
+        {
+            if (moveZone.localScale.x < maxMoveZoneScale - Time.deltaTime)
+                moveZone.localScale += Vector3.one * Time.deltaTime;
+        }
+        else
+            stepCoeficient = -0.15f;
+
         _transform.Translate(dir * Time.deltaTime * 5);
     }
 
@@ -35,5 +51,34 @@ public class CrossHairController : MonoBehaviour
         playerInput = new CrossHairActions();
 
         playerInput.Enable();
+
+        StartCoroutine(MoveZoneSizeChanger());
     }
+
+    IEnumerator MoveZoneSizeChanger()
+    {
+        while (true)
+        {
+            yield return null;
+
+            if (moveZone.localScale.x > minMoveZoneScale && moveZone.localScale.x < maxMoveZoneScale)
+                moveZone.localScale += Vector3.one * Time.deltaTime * stepCoeficient;
+        }
+    }
+
+    //IEnumerator MoveZoneSizeChanger()
+    //{
+    //    while (true)
+    //    {
+    //        yield return new WaitForSeconds(1);
+
+    //        moveZone.localScale += Vector3.one * Time.deltaTime * stepCoeficient;
+
+    //        if (Mathf.Abs(moveZone.localScale.x - minMoveZoneScale) < 0.3f)
+    //            stepCoeficient = 1;
+
+    //        if (Mathf.Abs(moveZone.localScale.x - maxMoveZoneScale) < 0.3f)
+    //            stepCoeficient = -1;
+    //    }
+    //}
 }

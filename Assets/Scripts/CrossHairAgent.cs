@@ -10,7 +10,7 @@ public class CrossHairAgent : Agent
     Transform _transform;
 
     Rigidbody2D rb;
-    [SerializeField] BoxCollider2D moveZone;
+    [SerializeField] Transform moveZone;
 
     [SerializeField] float forceMultiplier = 10;
 
@@ -22,17 +22,17 @@ public class CrossHairAgent : Agent
 
     public override void OnEpisodeBegin()
     {
-        var colliderSize = moveZone.size / 2;
+        var colliderSize = moveZone.localScale / 2;
         var pos = _transform.localPosition;
         var parentPos = _transform.parent.position;
 
-        if (Mathf.Abs(pos.y) > colliderSize.y || Mathf.Abs(pos.x) > colliderSize.x)
+        if (Vector3.Distance(pos, _target.localPosition) > moveZone.localScale.x + 1)
         {
             rb.velocity = Vector2.zero;
             _transform.position = parentPos;
         }
 
-        colliderSize -= Vector2.one / 3;
+        colliderSize -= Vector3.one / 3;
 
         _target.position = new Vector3(Random.Range(parentPos.x - colliderSize.x, parentPos.x + colliderSize.x),
                             Random.Range(parentPos.y - colliderSize.y, parentPos.y + colliderSize.y), _target.position.z);
@@ -44,7 +44,7 @@ public class CrossHairAgent : Agent
         sensor.AddObservation(_target.localPosition);
         sensor.AddObservation(_transform.localPosition);
 
-        sensor.AddObservation(moveZone.size);
+        sensor.AddObservation(moveZone.localScale.x);
 
         //// Agent velocity
         sensor.AddObservation(rb.velocity.x);
@@ -57,26 +57,32 @@ public class CrossHairAgent : Agent
         Vector3 controlSignal = Vector3.zero;
         controlSignal.x = actionBuffers.ContinuousActions[0];
         controlSignal.y = actionBuffers.ContinuousActions[1];
+
+        forceMultiplier = moveZone.localScale.x / 7.5f;
+
         rb.AddForce(controlSignal * forceMultiplier);
 
-        var colliderSize = moveZone.size / 2 + Vector2.one / 2;
+        //var colliderSize = moveZone.size / 2 + Vector2.one / 2;
         var pos = _transform.localPosition;
 
         // Rewards
         float distanceToTarget = Vector3.Distance(pos, _target.localPosition);
 
         // Reached target
-        if (distanceToTarget < 0.8f)
+        if (distanceToTarget < moveZone.localScale.x / 10)
         {
             AddReward(1.0f);
             EndEpisode();
+
+            return;
         }
 
-        // Fell off platform
-        else if (Mathf.Abs(pos.y) > colliderSize.y || Mathf.Abs(pos.x) > colliderSize.x)
-        {
-            AddReward(-5.0f);
-            EndEpisode();
-        }
+        //if (distanceToTarget > moveZone.localScale.x + 1) 
+        //{
+        //    AddReward(-5.0f);
+        //    EndEpisode();
+
+        //    return;
+        //}
     }
 }
