@@ -14,6 +14,8 @@ public class SoldierAgent : Agent
 
     Vector3 screenSize;
 
+    bool isTargetStollen = false;
+
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
@@ -23,9 +25,14 @@ public class SoldierAgent : Agent
 
     public override void OnEpisodeBegin()
     {
+        isTargetStollen = false;
+
         if (!IsAgentOnScreen())
         {
-            transform.position = new Vector3(transform.parent.position.x, transform.parent.position.y, transform.position.z);
+            var spawnPosition = GetPointOutOfScreen();
+
+            transform.position = new Vector3(spawnPosition.x, spawnPosition.y, transform.position.z);
+
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
         }
@@ -33,6 +40,31 @@ public class SoldierAgent : Agent
         var size = screenSize - new Vector3(2, 2, 0);
 
         target.position = new Vector3(Random.Range(size.x, -size.x), Random.Range(size.y, -size.y), target.position.z);
+    }
+
+    Vector2 GetPointOutOfScreen()
+    {
+        var spawnPosition = screenSize + new Vector3(1.5f, 1.5f, 0);
+
+        switch (Random.Range(0, 4))
+        {
+            case 0:
+                spawnPosition.y = Random.Range(-spawnPosition.y, spawnPosition.y);
+                break;
+            case 1:
+                spawnPosition.x *= -1;
+                spawnPosition.y = Random.Range(-spawnPosition.y, spawnPosition.y);
+                break;
+            case 2:
+                spawnPosition.x = Random.Range(-spawnPosition.x, spawnPosition.x);
+                break;
+            case 3:
+                spawnPosition.y *= -1;
+                spawnPosition.x = Random.Range(-spawnPosition.x, spawnPosition.x);
+                break;
+        }
+
+        return spawnPosition;
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -44,6 +76,7 @@ public class SoldierAgent : Agent
         // Agent velocity
         sensor.AddObservation(rb.velocity.x);
         sensor.AddObservation(rb.velocity.y);
+        sensor.AddObservation(isTargetStollen);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -66,6 +99,8 @@ public class SoldierAgent : Agent
         controlSignal.x = actionBuffers.ContinuousActions[0];
         controlSignal.y = actionBuffers.ContinuousActions[1];
 
+        controlSignal.Normalize();
+
         rb.AddForce(controlSignal * forceMultiplier, ForceMode.Impulse);
 
         // Rewards
@@ -74,12 +109,28 @@ public class SoldierAgent : Agent
         // Reached target
         if (distanceToTarget < 1)
         {
-            AddReward(1.0f);
+            if(!isTargetStollen)
+            {
+                isTargetStollen = true;
+
+                var newTargePos = GetPointOutOfScreen();
+                target.position = new Vector3(newTargePos.x, newTargePos.y, target.position.z);
+
+                AddReward(1f);
+
+                return;
+            }
+
+
+            AddReward(1f);
             EndEpisode();
+
+            return;
         }
-        else if (!IsAgentOnScreen())
+        
+        if (!IsAgentOnScreen())
         {
-            SetReward(-0.1f);
+            AddReward(isTargetStollen ? 0.1f : 0);
             EndEpisode();
         }
     }

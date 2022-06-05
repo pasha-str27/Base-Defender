@@ -115,7 +115,7 @@ GameObject:
   - component: {fileID: 752785273523673285}
   - component: {fileID: 6896107162586229393}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Soldier
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -228,7 +228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 8
+    VectorObservationSize: 9
     NumStackedVectorObservations: 3
     m_ActionSpec:
       m_NumContinuousActions: 2
@@ -261,7 +261,7 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
-  forceMultiplier: 5
+  forceMultiplier: 0.5
   target: {fileID: 752785272730004170}
 --- !u!114 &752785273523673285
 MonoBehaviour:
