@@ -11,6 +11,7 @@ public class CrossHairController : MonoBehaviour
     [SerializeField] float maxMoveZoneScale = 2.5f;
     [SerializeField] float minMoveZoneScale = 0.5f;
 
+    [SerializeField] GameObject explosion;
     [SerializeField] Transform moveZone;
 
     float stepCoeficient = -1;
@@ -31,13 +32,27 @@ public class CrossHairController : MonoBehaviour
 
         if (dir != Vector2.zero)
         {
-            if (moveZone.localScale.x < maxMoveZoneScale - Time.deltaTime)
-                moveZone.localScale += Vector3.one * Time.deltaTime;
+            if (moveZone.localScale.x < maxMoveZoneScale - Time.deltaTime * 2)
+                moveZone.localScale += Vector3.one * Time.deltaTime * 2;
         }
         else
             stepCoeficient = -0.15f;
 
-        _transform.Translate(dir * Time.deltaTime * 5);
+        bool firePressed = playerInput.Player.Fire.triggered;
+        if (firePressed)
+        {
+            moveZone.localScale = Vector3.one * (maxMoveZoneScale - Time.deltaTime);
+
+            explosion.transform.position = transform.GetChild(0).position;
+            explosion.SetActive(true);
+
+            //Ô²ÇÈÊÀ
+            //transform.position += (Vector3)Random.insideUnitCircle * 3;
+
+            print("Fire");
+        }
+
+        _transform.Translate(dir * Time.deltaTime);
     }
 
     private void OnDisable()
@@ -65,20 +80,4 @@ public class CrossHairController : MonoBehaviour
                 moveZone.localScale += Vector3.one * Time.deltaTime * stepCoeficient;
         }
     }
-
-    //IEnumerator MoveZoneSizeChanger()
-    //{
-    //    while (true)
-    //    {
-    //        yield return new WaitForSeconds(1);
-
-    //        moveZone.localScale += Vector3.one * Time.deltaTime * stepCoeficient;
-
-    //        if (Mathf.Abs(moveZone.localScale.x - minMoveZoneScale) < 0.3f)
-    //            stepCoeficient = 1;
-
-    //        if (Mathf.Abs(moveZone.localScale.x - maxMoveZoneScale) < 0.3f)
-    //            stepCoeficient = -1;
-    //    }
-    //}
 }

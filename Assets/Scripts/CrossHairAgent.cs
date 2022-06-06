@@ -56,7 +56,7 @@ public class CrossHairAgent : Agent
         // Actions, size = 2
         Vector3 controlSignal = Vector3.zero;
         controlSignal.x = actionBuffers.ContinuousActions[0];
-        controlSignal.y = actionBuffers.ContinuousActions[1];
+        controlSignal.z = actionBuffers.ContinuousActions[1];
 
         forceMultiplier = moveZone.localScale.x / 7.5f;
 
@@ -73,16 +73,6 @@ public class CrossHairAgent : Agent
         {
             AddReward(1.0f);
             EndEpisode();
-
-            return;
         }
-
-        //if (distanceToTarget > moveZone.localScale.x + 1) 
-        //{
-        //    AddReward(-5.0f);
-        //    EndEpisode();
-
-        //    return;
-        //}
     }
 }
