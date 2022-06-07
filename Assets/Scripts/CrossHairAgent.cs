@@ -9,19 +9,15 @@ public class CrossHairAgent : Agent
 
     Transform _transform;
 
-    Rigidbody rb;
+    Rigidbody2D rb;
     [SerializeField] Transform moveZone;
 
     [SerializeField] float forceMultiplier = 10;
 
-    public float currentScale;
-
     void Start()
     {
-        rb = gameObject.GetComponent<Rigidbody>();
+        rb = gameObject.GetComponent<Rigidbody2D>();
         _transform = transform;
-
-        _transform.localPosition = Vector3.zero;
     }
 
     public override void OnEpisodeBegin()
@@ -33,13 +29,13 @@ public class CrossHairAgent : Agent
         if (Vector3.Distance(pos, _target.localPosition) > moveZone.localScale.x + 1)
         {
             rb.velocity = Vector2.zero;
-            _transform.localPosition = Vector3.zero;
+            _transform.position = parentPos;
         }
 
         colliderSize -= Vector3.one / 3;
 
-        _target.localPosition = new Vector3(Random.Range(-colliderSize.x, colliderSize.x),
-                            Random.Range(-colliderSize.y, colliderSize.y), 0);
+        _target.position = new Vector3(Random.Range(parentPos.x - colliderSize.x, parentPos.x + colliderSize.x),
+                            Random.Range(parentPos.y - colliderSize.y, parentPos.y + colliderSize.y), _target.position.z);
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -60,9 +56,9 @@ public class CrossHairAgent : Agent
         // Actions, size = 2
         Vector3 controlSignal = Vector3.zero;
         controlSignal.x = actionBuffers.ContinuousActions[0];
-        controlSignal.z = actionBuffers.ContinuousActions[1];
+        controlSignal.y = actionBuffers.ContinuousActions[1];
 
-        forceMultiplier = moveZone.localScale.x / 10f;
+        forceMultiplier = moveZone.localScale.x * 3;
 
         rb.AddForce(controlSignal * forceMultiplier);
 
@@ -73,7 +69,7 @@ public class CrossHairAgent : Agent
         float distanceToTarget = Vector3.Distance(pos, _target.localPosition);
 
         // Reached target
-        if (distanceToTarget < 0.3f)
+        if (distanceToTarget < moveZone.localScale.x / 10)
         {
             AddReward(1.0f);
             EndEpisode();
@@ -81,18 +77,12 @@ public class CrossHairAgent : Agent
             return;
         }
 
-        //if (distanceToTarget > moveZone.localScale.x + 1)
+        //if (distanceToTarget > moveZone.localScale.x + 1) 
         //{
-        //    AddReward(-1.0f);
+        //    AddReward(-5.0f);
         //    EndEpisode();
 
         //    return;
-        //}
-
-        //if (distanceToTarget > 3)
-        //{
-        //    AddReward(-1);
-        //    EndEpisode();
         //}
     }
 }
