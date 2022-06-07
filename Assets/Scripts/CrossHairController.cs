@@ -80,4 +80,20 @@ public class CrossHairController : MonoBehaviour
                 moveZone.localScale += Vector3.one * Time.deltaTime * stepCoeficient;
         }
     }
+
+    //IEnumerator MoveZoneSizeChanger()
+    //{
+    //    while (true)
+    //    {
+    //        yield return new WaitForSeconds(1);
+
+    //        moveZone.localScale += Vector3.one * Time.deltaTime * stepCoeficient;
+
+    //        if (Mathf.Abs(moveZone.localScale.x - minMoveZoneScale) < 0.3f)
+    //            stepCoeficient = 1;
+
+    //        if (Mathf.Abs(moveZone.localScale.x - maxMoveZoneScale) < 0.3f)
+    //            stepCoeficient = -1;
+    //    }
+    //}
 }

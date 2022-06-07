@@ -9,15 +9,19 @@ public class CrossHairAgent : Agent
 
     Transform _transform;
 
-    Rigidbody2D rb;
+    Rigidbody rb;
     [SerializeField] Transform moveZone;
 
     [SerializeField] float forceMultiplier = 10;
 
+    public float currentScale;
+
     void Start()
     {
-        rb = gameObject.GetComponent<Rigidbody2D>();
+        rb = gameObject.GetComponent<Rigidbody>();
         _transform = transform;
+
+        _transform.localPosition = Vector3.zero;
     }
 
     public override void OnEpisodeBegin()
@@ -29,13 +33,13 @@ public class CrossHairAgent : Agent
         if (Vector3.Distance(pos, _target.localPosition) > moveZone.localScale.x + 1)
         {
             rb.velocity = Vector2.zero;
-            _transform.position = parentPos;
+            _transform.localPosition = Vector3.zero;
         }
 
         colliderSize -= Vector3.one / 3;
 
-        _target.position = new Vector3(Random.Range(parentPos.x - colliderSize.x, parentPos.x + colliderSize.x),
-                            Random.Range(parentPos.y - colliderSize.y, parentPos.y + colliderSize.y), _target.position.z);
+        _target.localPosition = new Vector3(Random.Range(-colliderSize.x, colliderSize.x),
+                            Random.Range(-colliderSize.y, colliderSize.y), 0);
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -58,7 +62,7 @@ public class CrossHairAgent : Agent
         controlSignal.x = actionBuffers.ContinuousActions[0];
         controlSignal.z = actionBuffers.ContinuousActions[1];
 
-        forceMultiplier = moveZone.localScale.x / 7.5f;
+        forceMultiplier = moveZone.localScale.x / 10f;
 
         rb.AddForce(controlSignal * forceMultiplier);
 
@@ -69,10 +73,26 @@ public class CrossHairAgent : Agent
         float distanceToTarget = Vector3.Distance(pos, _target.localPosition);
 
         // Reached target
-        if (distanceToTarget < moveZone.localScale.x / 10)
+        if (distanceToTarget < 0.3f)
         {
             AddReward(1.0f);
             EndEpisode();
+
+            return;
         }
+
+        //if (distanceToTarget > moveZone.localScale.x + 1)
+        //{
+        //    AddReward(-1.0f);
+        //    EndEpisode();
+
+        //    return;
+        //}
+
+        //if (distanceToTarget > 3)
+        //{
+        //    AddReward(-1);
+        //    EndEpisode();
+        //}
     }
 }
