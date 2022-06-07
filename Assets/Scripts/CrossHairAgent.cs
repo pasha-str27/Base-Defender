@@ -58,7 +58,7 @@ public class CrossHairAgent : Agent
         controlSignal.x = actionBuffers.ContinuousActions[0];
         controlSignal.y = actionBuffers.ContinuousActions[1];
 
-        forceMultiplier = moveZone.localScale.x / 7.5f;
+        forceMultiplier = moveZone.localScale.x * 3;
 
         rb.AddForce(controlSignal * forceMultiplier);
 
