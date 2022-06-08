@@ -7,10 +7,14 @@ using Unity.MLAgents.Sensors;
 
 public class SoldierAgent : Agent
 {
+    [SerializeField] float rotateDumping = 1;
+    [SerializeField] Transform takenBoxPos;
+
     Rigidbody rb;
 
     public float forceMultiplier = 10;
-    public Transform target;
+    Transform currentBox;
+    Transform target;
 
     Vector2 screenSize;
 
@@ -21,6 +25,10 @@ public class SoldierAgent : Agent
         rb = gameObject.GetComponent<Rigidbody>();
 
         screenSize = new Vector2(15, 7);
+
+        FindNewTarget();
+
+        target.gameObject.GetComponent<AgentTarget>().SubscribeOnTargetTaken(this);
 
         //var camera = Camera.main;
         //screenSize = camera.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
@@ -40,9 +48,9 @@ public class SoldierAgent : Agent
             rb.angularVelocity = Vector3.zero;
         }
 
-        var size = screenSize - new Vector2(2, 2);
+        //var size = screenSize - new Vector2(2, 2);
 
-        target.localPosition = new Vector3(Random.Range(-size.x, size.x), 0.5f, Random.Range(-size.y, size.y));
+        //target.localPosition = new Vector3(Random.Range(-size.x, size.x), 0.5f, Random.Range(-size.y, size.y));
     }
 
     Vector2 GetPointOutOfScreen()
@@ -103,9 +111,10 @@ public class SoldierAgent : Agent
         controlSignal.x = actionBuffers.ContinuousActions[0];
         controlSignal.z = actionBuffers.ContinuousActions[1];
 
-        //controlSignal.Normalize();
-
         rb.AddForce(controlSignal * forceMultiplier);
+
+        var rotation = Quaternion.LookRotation(controlSignal);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotateDumping);
 
         // Rewards
         float distanceToTarget = Vector3.Distance(transform.localPosition, target.localPosition);
@@ -115,10 +124,9 @@ public class SoldierAgent : Agent
         {
             if (!isTargetStollen)
             {
-                isTargetStollen = true;
+                PickUpBox();
 
-                var newTargePos = GetPointOutOfScreen();
-                target.localPosition = new Vector3(newTargePos.x, target.localPosition.y, newTargePos.y);
+                //target.localPosition = new Vector3(newTargePos.x, target.localPosition.y, newTargePos.y);
 
                 AddReward(1f);
 
@@ -126,14 +134,71 @@ public class SoldierAgent : Agent
             }
 
             AddReward(1f);
-            EndEpisode();
+
+            //забрати коробку
+
+            Destroy(gameObject);
+
+            //target = BoxesContainer.GetInstance().GetRandomBox();
+            return;
+            //EndEpisode();
         }
 
         else if (transform.localPosition.y < -2)
         {
             AddReward(isTargetStollen ? 1f : -3);
 
-            EndEpisode();
+            Destroy(gameObject);
+            return;
+
+            //EndEpisode();
         }
+    }
+
+    void PickUpBox()
+    {
+        isTargetStollen = true;
+
+        var newTargePos = GetPointOutOfScreen();
+
+        var agentTargetScript = target.gameObject.GetComponent<AgentTarget>();
+
+        agentTargetScript.UnSubscribeOnTargetTaken(this);
+        agentTargetScript.TargetTaken();
+
+        var targetExitPoint = Instantiate(target.gameObject, new Vector3(newTargePos.x, target.localPosition.y, newTargePos.y), target.rotation).transform;
+        targetExitPoint.GetComponent<MeshRenderer>().enabled = false;
+        target = targetExitPoint;
+
+        BoxesContainer.GetInstance().RemoveBox(currentBox);
+
+        forceMultiplier /= 4;
+
+        AddBoxToBody(currentBox);
+    }
+
+    public void FindNewTarget()
+    {
+        //якщо немає таргетів на сцені то зарандомити!!!
+
+        target = BoxesContainer.GetInstance().GetRandomBox();
+        currentBox = target;
+    }
+
+    void AddBoxToBody(Transform box)
+    {
+        box.parent = gameObject.transform;
+        box.position = takenBoxPos.position;
+        Destroy(box.GetComponent<Rigidbody>());
+        //Time.timeScale = 0;
+    }
+
+    public void KillSoldier()
+    {
+        BoxesContainer.GetInstance().AddBox(currentBox);
+
+        //забрати коробку
+
+        Destroy(gameObject);
     }
 }
