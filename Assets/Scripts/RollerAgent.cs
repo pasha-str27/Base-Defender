@@ -19,16 +19,14 @@ public class RollerAgent : Agent
 
     public override void OnEpisodeBegin()
     {
-        print(89);
-
-        if (transform.position.y < 0)
+        if (transform.localPosition.y < 0)
         {
-            transform.position = transform.parent.position + new Vector3(0, 0.5f, 0);
+            transform.position = transform.parent.localPosition + new Vector3(0, 0.5f, 0);
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
         }
 
-        cubeTarget.position = new Vector3(Random.Range(transform.parent.position.x - 4f, transform.parent.position.x + 4f), 0.5f, Random.Range(transform.parent.position.z - 4f, transform.parent.position.z + 4f));
+        cubeTarget.localPosition = new Vector3(Random.Range(-10f, 10f), 0.5f, Random.Range(-5f, 5f));
     }
 
     public override void CollectObservations(VectorSensor sensor)
