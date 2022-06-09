@@ -157,6 +157,8 @@ public class SoldierAgent : Agent
 
     void PickUpBox()
     {
+        GetComponent<Animator>().SetTrigger("PickUpBox");
+
         isTargetStollen = true;
 
         var newTargePos = GetPointOutOfScreen();
@@ -190,6 +192,7 @@ public class SoldierAgent : Agent
         box.parent = gameObject.transform;
         box.position = takenBoxPos.position;
         Destroy(box.GetComponent<Rigidbody>());
+        box.GetComponent<BoxCollider>().enabled = false;
         //Time.timeScale = 0;
     }
 
@@ -198,6 +201,11 @@ public class SoldierAgent : Agent
         BoxesContainer.GetInstance().AddBox(currentBox);
 
         //забрати коробку
+
+        currentBox.gameObject.AddComponent<Rigidbody>();
+        currentBox.gameObject.GetComponent<BoxCollider>().enabled = true;
+
+        currentBox.parent = null;
 
         Destroy(gameObject);
     }

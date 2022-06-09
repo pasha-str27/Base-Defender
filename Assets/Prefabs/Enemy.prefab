@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5508310208393142081}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: BoxPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,35 +40,35 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 532746948962337254, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 576195807652634991, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1315124194253524386, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1734520149093920678, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2050122985866689949, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2157668837490642461, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2377165235090446845, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2425457610004364742, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3544347967912694521, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
       propertyPath: m_RootOrder
@@ -116,15 +116,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3602843330299909616, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3876468994846441707, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3914710949031748478, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4214204997948147779, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
       propertyPath: m_Name
@@ -132,59 +132,59 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4214204997948147779, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4333258611869909659, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5158275920265497476, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5567575567000433395, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5829547831305199784, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5895456905681375018, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6051899883144413099, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6840456436042474403, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7234292839628162116, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7306290883017461422, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7545275194396984195, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7581958159657697379, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7866623074712214507, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8346066889552797076, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a01e2ccbcda95d746bb3a5f08dad9573, type: 3}
@@ -290,3 +290,23 @@ MonoBehaviour:
   rotateDumping: 1
   takenBoxPos: {fileID: 5508310208393142081}
   forceMultiplier: 5
+--- !u!95 &3684089687579518284
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1857237843045422604}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 61cafcb29fdd4304b8b9ac0fa6601666, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
