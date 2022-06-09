@@ -26,9 +26,7 @@ public class SoldierAgent : Agent
 
         screenSize = new Vector2(15, 7);
 
-        FindNewTarget();
-
-        target.gameObject.GetComponent<AgentTarget>().SubscribeOnTargetTaken(this);
+        InvokeRepeating("FindNewTarget", 0, 3);
 
         //var camera = Camera.main;
         //screenSize = camera.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
@@ -111,7 +109,7 @@ public class SoldierAgent : Agent
         controlSignal.x = actionBuffers.ContinuousActions[0];
         controlSignal.z = actionBuffers.ContinuousActions[1];
 
-        rb.AddForce(controlSignal * forceMultiplier);
+        rb.AddForce(controlSignal * forceMultiplier, ForceMode.Impulse);
 
         var rotation = Quaternion.LookRotation(controlSignal);
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotateDumping);
@@ -120,7 +118,7 @@ public class SoldierAgent : Agent
         float distanceToTarget = Vector3.Distance(transform.localPosition, target.localPosition);
 
         // Reached target
-        if (distanceToTarget < 1.5f)
+        if (distanceToTarget < 1f)
         {
             if (!isTargetStollen)
             {
@@ -157,6 +155,8 @@ public class SoldierAgent : Agent
 
     void PickUpBox()
     {
+        CancelInvoke();
+
         GetComponent<Animator>().SetTrigger("PickUpBox");
 
         isTargetStollen = true;
@@ -174,7 +174,7 @@ public class SoldierAgent : Agent
 
         BoxesContainer.GetInstance().RemoveBox(currentBox);
 
-        forceMultiplier /= 4;
+        forceMultiplier /= 2;
 
         AddBoxToBody(currentBox);
     }
@@ -183,8 +183,13 @@ public class SoldierAgent : Agent
     {
         //якщо немає таргетів на сцені то зарандомити!!!
 
-        target = BoxesContainer.GetInstance().GetRandomBox();
+        if (target != null)
+            target.gameObject.GetComponent<AgentTarget>().UnSubscribeOnTargetTaken(this);
+        
+        target = BoxesContainer.GetInstance().GetNearestBox(transform.position);
         currentBox = target;
+
+        target.gameObject.GetComponent<AgentTarget>().SubscribeOnTargetTaken(this);
     }
 
     void AddBoxToBody(Transform box)

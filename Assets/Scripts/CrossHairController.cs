@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class CrossHairController : MonoBehaviour
 {
@@ -11,10 +11,22 @@ public class CrossHairController : MonoBehaviour
     [SerializeField] float maxMoveZoneScale = 2.5f;
     [SerializeField] float minMoveZoneScale = 0.5f;
 
+    [SerializeField] float rechargeTime = 1.5f;
+    [SerializeField] float rechargeSpeed = 1f;
+
+    [SerializeField] Slider rechargeIndicator;
+    [SerializeField] Rigidbody2D agentRB;
+    [SerializeField] Transform crosshairWallls;
+
     [SerializeField] GameObject explosion;
     [SerializeField] Transform moveZone;
 
+    bool canFire = true;
     float stepCoeficient = -1;
+    bool canCheckVelocity = true;
+    bool changedOffset = false;
+
+    Rigidbody2D rb;
 
     private void Update()
     {
@@ -38,21 +50,79 @@ public class CrossHairController : MonoBehaviour
         else
             stepCoeficient = -0.15f;
 
-        bool firePressed = playerInput.Player.Fire.triggered;
-        if (firePressed)
+        if (canFire && playerInput.Player.Fire.triggered)
+            Fire();
+
+        if (dir != Vector2.zero) 
         {
-            moveZone.localScale = Vector3.one * (maxMoveZoneScale - Time.deltaTime);
+            rb.simulated = true;
+            agentRB.simulated = false;      
 
-            explosion.transform.position = transform.GetChild(0).position;
-            explosion.SetActive(true);
+            if(!changedOffset)
+                GetComponent<BoxCollider2D>().offset = agentRB.position - rb.position;
 
-            //‘≤«» ¿
-            //transform.position += (Vector3)Random.insideUnitCircle * 3;
+            changedOffset = true;
+            rb.velocity = dir;
+            crosshairWallls.position = transform.position;
 
-            print("Fire");
+            return;
         }
 
-        _transform.Translate(dir * Time.deltaTime);
+        changedOffset = false;
+
+        rb.velocity = Vector2.MoveTowards(rb.velocity, Vector2.zero, Time.deltaTime * 3);
+
+        if (canCheckVelocity && rb.velocity.magnitude == 0)
+        {
+            rb.simulated = false;
+            agentRB.simulated = true;
+        }
+
+        //_transform.Translate(dir * Time.deltaTime);
+        //crosshairWallls.Translate(dir * Time.deltaTime);
+    }
+
+    void Fire()
+    {
+        rb.simulated = true;
+        agentRB.simulated = false;
+
+        GetComponent<BoxCollider2D>().offset = agentRB.position - rb.position;
+
+        moveZone.localScale = Vector3.one * (maxMoveZoneScale - Time.deltaTime);
+
+        explosion.transform.position = transform.GetChild(0).position;
+        explosion.SetActive(true);
+
+        rechargeIndicator.value = 0;
+        canFire = false;
+
+        var forceDirection = Random.insideUnitCircle.normalized;
+
+        rb.AddForce(forceDirection * Random.Range(200, 650));
+
+        canCheckVelocity = false;
+
+        Invoke("LetCheckVelocity", 0.1f);
+
+        StartCoroutine(Recharge());
+    }
+
+    void LetCheckVelocity() => canCheckVelocity = true;
+
+    IEnumerator Recharge()
+    {
+        float time = 0;
+
+        while (time < rechargeTime) 
+        {
+            time += Time.deltaTime * rechargeSpeed;
+            rechargeIndicator.value = time / rechargeTime;
+
+            yield return new WaitForSeconds(Time.deltaTime * rechargeSpeed);
+        }
+
+        canFire = true;
     }
 
     private void OnDisable()
@@ -64,6 +134,7 @@ public class CrossHairController : MonoBehaviour
     {
         _transform = transform;
         playerInput = new CrossHairActions();
+        rb = gameObject.GetComponent<Rigidbody2D>();
 
         playerInput.Enable();
 
@@ -80,20 +151,4 @@ public class CrossHairController : MonoBehaviour
                 moveZone.localScale += Vector3.one * Time.deltaTime * stepCoeficient;
         }
     }
-
-    //IEnumerator MoveZoneSizeChanger()
-    //{
-    //    while (true)
-    //    {
-    //        yield return new WaitForSeconds(1);
-
-    //        moveZone.localScale += Vector3.one * Time.deltaTime * stepCoeficient;
-
-    //        if (Mathf.Abs(moveZone.localScale.x - minMoveZoneScale) < 0.3f)
-    //            stepCoeficient = 1;
-
-    //        if (Mathf.Abs(moveZone.localScale.x - maxMoveZoneScale) < 0.3f)
-    //            stepCoeficient = -1;
-    //    }
-    //}
 }

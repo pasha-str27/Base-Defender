@@ -18,9 +18,9 @@ TagManager:
   - LevelEnvirement
   - Crosshair
   - Soldier
-  - 
-  - 
-  - 
+  - CrosshairPhysic
+  - CrosshairWall
+  - LevelWall
   - 
   - 
   - 

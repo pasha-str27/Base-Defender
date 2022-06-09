@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using System.Linq;
 
 class BoxesContainer
 {
@@ -28,6 +29,17 @@ class BoxesContainer
     public int BoxesCount() => boxesOnLevel.Count;
 
     public Transform GetRandomBox() => boxesOnLevel[Random.Range(0, boxesOnLevel.Count)];
+
+    public Transform GetNearestBox(Vector3 pos)
+    {
+        var nearestPos = boxesOnLevel[0];
+
+        for (int i = 1; i < boxesOnLevel.Count; ++i)
+            if (Vector3.Distance(pos, boxesOnLevel[i].position) < Vector3.Distance(pos, nearestPos.position))
+                nearestPos = boxesOnLevel[i];
+
+        return nearestPos;
+    }
 
     public void RemoveBox(Transform box)
     {
