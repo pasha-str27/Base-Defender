@@ -1013,7 +1013,7 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
-  forceMultiplier: 10
+  forceMultiplier: 0.08
   target: {fileID: 752785272730004170}
 --- !u!114 &2442955206157275964
 MonoBehaviour:

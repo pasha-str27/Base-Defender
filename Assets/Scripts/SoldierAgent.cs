@@ -105,7 +105,7 @@ public class SoldierAgent : Agent
 
         //controlSignal.Normalize();
 
-        rb.AddForce(controlSignal * forceMultiplier);
+        rb.AddForce(controlSignal * forceMultiplier, ForceMode.Impulse);
 
         // Rewards
         float distanceToTarget = Vector3.Distance(transform.localPosition, target.localPosition);
