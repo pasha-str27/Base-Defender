@@ -27,9 +27,6 @@ public class SoldierAgent : Agent
         screenSize = new Vector2(15, 7);
 
         InvokeRepeating("FindNewTarget", 0, 3);
-
-        //var camera = Camera.main;
-        //screenSize = camera.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
     }
 
     public override void OnEpisodeBegin()
@@ -39,16 +36,11 @@ public class SoldierAgent : Agent
         if (!IsAgentOnScreen())
         {
             var spawnPosition = GetPointOutOfScreen();
-            ///&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
             transform.localPosition = new Vector3(spawnPosition.x, 0.5f, spawnPosition.y);
 
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
         }
-
-        //var size = screenSize - new Vector2(2, 2);
-
-        //target.localPosition = new Vector3(Random.Range(-size.x, size.x), 0.5f, Random.Range(-size.y, size.y));
     }
 
     Vector2 GetPointOutOfScreen()
@@ -98,8 +90,6 @@ public class SoldierAgent : Agent
     bool IsAgentOnScreen()
     {
         return transform.localPosition.y > -2;
-        //return transform.localPosition.x > -screenSize.x - 2 && transform.localPosition.x < screenSize.x + 2
-        //            && transform.localPosition.y > -screenSize.y - 2 && transform.localPosition.y < screenSize.y + 2;
     }
 
     public override void OnActionReceived(ActionBuffers actionBuffers)
@@ -124,8 +114,6 @@ public class SoldierAgent : Agent
             {
                 PickUpBox();
 
-                //target.localPosition = new Vector3(newTargePos.x, target.localPosition.y, newTargePos.y);
-
                 AddReward(1f);
 
                 return;
@@ -133,11 +121,8 @@ public class SoldierAgent : Agent
 
             AddReward(1f);
 
-            //забрати коробку
-
             Destroy(gameObject);
 
-            //target = BoxesContainer.GetInstance().GetRandomBox();
             return;
             //EndEpisode();
         }
@@ -146,6 +131,7 @@ public class SoldierAgent : Agent
         {
             AddReward(isTargetStollen ? 1f : -3);
 
+            Destroy(target.gameObject);
             Destroy(gameObject);
             return;
 
@@ -198,14 +184,11 @@ public class SoldierAgent : Agent
         box.position = takenBoxPos.position;
         Destroy(box.GetComponent<Rigidbody>());
         box.GetComponent<BoxCollider>().enabled = false;
-        //Time.timeScale = 0;
     }
 
     public void KillSoldier()
     {
         BoxesContainer.GetInstance().AddBox(currentBox);
-
-        //забрати коробку
 
         currentBox.gameObject.AddComponent<Rigidbody>();
         currentBox.gameObject.GetComponent<BoxCollider>().enabled = true;
@@ -213,5 +196,11 @@ public class SoldierAgent : Agent
         currentBox.parent = null;
 
         Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Explosion"))
+            KillSoldier();
     }
 }

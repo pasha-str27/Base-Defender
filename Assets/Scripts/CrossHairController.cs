@@ -6,8 +6,6 @@ public class CrossHairController : MonoBehaviour
 {
     protected CrossHairActions playerInput;
 
-    Transform _transform;
-
     [SerializeField] float maxMoveZoneScale = 2.5f;
     [SerializeField] float minMoveZoneScale = 0.5f;
 
@@ -20,6 +18,8 @@ public class CrossHairController : MonoBehaviour
 
     [SerializeField] GameObject explosion;
     [SerializeField] Transform moveZone;
+
+    [SerializeField] Transform explosionZone;
 
     bool canFire = true;
     float stepCoeficient = -1;
@@ -77,9 +77,6 @@ public class CrossHairController : MonoBehaviour
             rb.simulated = false;
             agentRB.simulated = true;
         }
-
-        //_transform.Translate(dir * Time.deltaTime);
-        //crosshairWallls.Translate(dir * Time.deltaTime);
     }
 
     void Fire()
@@ -91,8 +88,15 @@ public class CrossHairController : MonoBehaviour
 
         moveZone.localScale = Vector3.one * (maxMoveZoneScale - Time.deltaTime);
 
-        explosion.transform.position = transform.GetChild(0).position;
+        var explosionPosition = transform.GetChild(0).position;
+
+        explosion.transform.position = explosionPosition;
         explosion.SetActive(true);
+
+        explosionZone.gameObject.SetActive(true);
+        explosionZone.position = new Vector3(explosionPosition.x, 5, explosionPosition.y);
+
+        Invoke("DeactivateExplosionZone", 0.1f);
 
         rechargeIndicator.value = 0;
         canFire = false;
@@ -105,8 +109,12 @@ public class CrossHairController : MonoBehaviour
 
         Invoke("LetCheckVelocity", 0.1f);
 
+        //Time.timeScale = 0;
+
         StartCoroutine(Recharge());
     }
+
+    void DeactivateExplosionZone() => explosionZone.gameObject.SetActive(false);
 
     void LetCheckVelocity() => canCheckVelocity = true;
 
@@ -132,7 +140,6 @@ public class CrossHairController : MonoBehaviour
 
     void Start()
     {
-        _transform = transform;
         playerInput = new CrossHairActions();
         rb = gameObject.GetComponent<Rigidbody2D>();
 
