@@ -19,8 +19,8 @@ public class AgentTarget : MonoBehaviour
 
     public void TargetTaken()
     {
-        foreach (var soldier in subscribedEnemies)
-            soldier.FindNewTarget();
+        for (int i = 0; i < subscribedEnemies.Count; ++i) 
+            subscribedEnemies[i]?.FindNewTarget();
 
         subscribedEnemies.Clear();
     }

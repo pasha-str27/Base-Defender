@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -766097009722736845}
   - component: {fileID: -9102968520535966297}
   - component: {fileID: 2948216924912398722}
-  m_Layer: 7
+  m_Layer: 14
   m_Name: barril
   m_TagString: Untagged
   m_Icon: {fileID: 0}

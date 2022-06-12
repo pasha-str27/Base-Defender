@@ -901,57 +901,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoldierEnvirement
       objectReference: {fileID: 0}
-    - target: {fileID: 3544347967217610464, guid: 19803032d70e18a4eb6d75f46de8ceba, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -9
+    - target: {fileID: 3659793083719043380, guid: 19803032d70e18a4eb6d75f46de8ceba, type: 3}
+      propertyPath: maxEnemySpawnDelay
+      value: 30
       objectReference: {fileID: 0}
-    - target: {fileID: 3544347967217610464, guid: 19803032d70e18a4eb6d75f46de8ceba, type: 3}
+    - target: {fileID: 3659793083719043380, guid: 19803032d70e18a4eb6d75f46de8ceba, type: 3}
+      propertyPath: minEnemySpawnDelay
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035081630002199278, guid: 19803032d70e18a4eb6d75f46de8ceba, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 19.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035081630002199278, guid: 19803032d70e18a4eb6d75f46de8ceba, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035081630002199278, guid: 19803032d70e18a4eb6d75f46de8ceba, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6015173316956890294, guid: 19803032d70e18a4eb6d75f46de8ceba, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6015173318320807851, guid: 19803032d70e18a4eb6d75f46de8ceba, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6120542794263487029, guid: 19803032d70e18a4eb6d75f46de8ceba, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.13
-      objectReference: {fileID: 0}
-    - target: {fileID: 6120542794263487029, guid: 19803032d70e18a4eb6d75f46de8ceba, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.24
-      objectReference: {fileID: 0}
-    - target: {fileID: 6898205741439957135, guid: 19803032d70e18a4eb6d75f46de8ceba, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6898205741616346449, guid: 19803032d70e18a4eb6d75f46de8ceba, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6898205741691800763, guid: 19803032d70e18a4eb6d75f46de8ceba, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7593203504446643473, guid: 19803032d70e18a4eb6d75f46de8ceba, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7593203504446643473, guid: 19803032d70e18a4eb6d75f46de8ceba, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7593203504446643473, guid: 19803032d70e18a4eb6d75f46de8ceba, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 8513558593151997558, guid: 19803032d70e18a4eb6d75f46de8ceba, type: 3}
-      propertyPath: m_Material
-      value: 
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19803032d70e18a4eb6d75f46de8ceba, type: 3}
@@ -1108,7 +1076,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 640
+    m_Bits: 17024
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1178,7 +1146,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 653818286, guid: 9b41585e3e57bc54aae89d75a57581c2, type: 3}
       propertyPath: movementSpeed
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 653818286, guid: 9b41585e3e57bc54aae89d75a57581c2, type: 3}
       propertyPath: rechargeIndicator

@@ -34,7 +34,7 @@ class BoxesContainer
         var nearestPos = boxesOnLevel[0];
 
         for (int i = 1; i < boxesOnLevel.Count; ++i)
-            if (Vector3.Distance(pos, boxesOnLevel[i].position) < Vector3.Distance(pos, nearestPos.position))
+            if (boxesOnLevel[i] && Vector3.Distance(pos, boxesOnLevel[i].position) < Vector3.Distance(pos, nearestPos.position))
                 nearestPos = boxesOnLevel[i];
 
         return nearestPos;

@@ -82,8 +82,8 @@ public class SoldierAgent : Agent
         sensor.AddObservation(transform.localPosition);
 
         // Agent velocity
-        sensor.AddObservation(rb.velocity.x);
-        sensor.AddObservation(rb.velocity.z);
+        sensor.AddObservation(rb ? rb.velocity.x : 0);
+        sensor.AddObservation(rb ? rb.velocity.z : 0);
         sensor.AddObservation(isTargetStollen);
     }
 
@@ -122,6 +122,7 @@ public class SoldierAgent : Agent
         {
             if (!isTargetStollen)
             {
+                BoxesContainer.GetInstance().RemoveBox(currentBox);
                 PickUpBox();
 
                 AddReward(1f);
@@ -168,8 +169,6 @@ public class SoldierAgent : Agent
         targetExitPoint.GetComponent<MeshRenderer>().enabled = false;
         target = targetExitPoint;
 
-        BoxesContainer.GetInstance().RemoveBox(currentBox);
-
         forceMultiplier /= 2;
 
         AddBoxToBody(currentBox);
@@ -204,6 +203,7 @@ public class SoldierAgent : Agent
 
     public void KillSoldier()
     {
+        currentBox.GetComponent<AgentTarget>().UnSubscribeOnTargetTaken(this);
         BoxesContainer.GetInstance().AddBox(currentBox);
 
         currentBox.gameObject.AddComponent<Rigidbody>();

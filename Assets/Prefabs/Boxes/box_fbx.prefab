@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7824297054804800487}
   - component: {fileID: 7824297054804800486}
   - component: {fileID: 7824297055053521639}
-  m_Layer: 7
+  m_Layer: 14
   m_Name: box_fbx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
