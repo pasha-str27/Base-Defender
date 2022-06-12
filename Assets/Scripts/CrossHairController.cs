@@ -11,6 +11,7 @@ public class CrossHairController : MonoBehaviour
 
     [SerializeField] float rechargeTime = 1.5f;
     [SerializeField] float rechargeSpeed = 1f;
+    [SerializeField] float movementSpeed = 1;
 
     [SerializeField] Slider rechargeIndicator;
     [SerializeField] Rigidbody2D agentRB;
@@ -62,7 +63,7 @@ public class CrossHairController : MonoBehaviour
                 GetComponent<BoxCollider2D>().offset = agentRB.position - rb.position;
 
             changedOffset = true;
-            rb.velocity = dir;
+            rb.velocity = dir * movementSpeed;
             crosshairWallls.position = transform.position;
 
             return;
@@ -93,8 +94,8 @@ public class CrossHairController : MonoBehaviour
         explosion.transform.position = explosionPosition;
         explosion.SetActive(true);
 
+        explosionZone.position = new Vector3(explosionPosition.x, 0, explosionPosition.y);
         explosionZone.gameObject.SetActive(true);
-        explosionZone.position = new Vector3(explosionPosition.x, 5, explosionPosition.y);
 
         Invoke("DeactivateExplosionZone", 0.1f);
 
@@ -108,8 +109,6 @@ public class CrossHairController : MonoBehaviour
         canCheckVelocity = false;
 
         Invoke("LetCheckVelocity", 0.1f);
-
-        //Time.timeScale = 0;
 
         StartCoroutine(Recharge());
     }

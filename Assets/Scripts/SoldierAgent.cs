@@ -9,12 +9,14 @@ public class SoldierAgent : Agent
 {
     [SerializeField] float rotateDumping = 1;
     [SerializeField] Transform takenBoxPos;
+    [SerializeField] GameObject tempPosPrefab;
 
     Rigidbody rb;
 
     public float forceMultiplier = 10;
     Transform currentBox;
     Transform target;
+    Transform tempTarget;
 
     Vector2 screenSize;
 
@@ -24,7 +26,12 @@ public class SoldierAgent : Agent
     {
         rb = gameObject.GetComponent<Rigidbody>();
 
+        var collider = gameObject.GetComponent<BoxCollider>();
+        collider.material.frictionCombine = PhysicMaterialCombine.Minimum;
+
         screenSize = new Vector2(15, 7);
+
+        tempTarget = Instantiate(tempPosPrefab, Vector3.zero, Quaternion.identity).transform;
 
         InvokeRepeating("FindNewTarget", 0, 3);
     }
@@ -45,7 +52,7 @@ public class SoldierAgent : Agent
 
     Vector2 GetPointOutOfScreen()
     {
-        var spawnPosition = screenSize - new Vector2(1.5f, 1.5f);
+        var spawnPosition = screenSize + new Vector2(1.5f, 1.5f);
 
         switch (Random.Range(0, 4))
         {
@@ -71,7 +78,7 @@ public class SoldierAgent : Agent
     public override void CollectObservations(VectorSensor sensor)
     {
         // Target and Agent positions
-        sensor.AddObservation(target.localPosition);
+        sensor.AddObservation(target == null ? Vector3.zero : target.localPosition);
         sensor.AddObservation(transform.localPosition);
 
         // Agent velocity
@@ -94,6 +101,9 @@ public class SoldierAgent : Agent
 
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
+        if (target == null)
+            return;
+
         // Actions, size = 2
         Vector3 controlSignal = Vector3.zero;
         controlSignal.x = actionBuffers.ContinuousActions[0];
@@ -108,7 +118,7 @@ public class SoldierAgent : Agent
         float distanceToTarget = Vector3.Distance(transform.localPosition, target.localPosition);
 
         // Reached target
-        if (distanceToTarget < 1f)
+        if (distanceToTarget < 1f && target.gameObject.GetComponent<Rigidbody>().velocity.magnitude < 0.1f)
         {
             if (!isTargetStollen)
             {
@@ -127,7 +137,7 @@ public class SoldierAgent : Agent
             //EndEpisode();
         }
 
-        else if (transform.localPosition.y < -2)
+        else if (!IsAgentOnScreen())
         {
             AddReward(isTargetStollen ? 1f : -3);
 
@@ -168,10 +178,16 @@ public class SoldierAgent : Agent
     public void FindNewTarget()
     {
         //якщо немає таргетів на сцені то зарандомити!!!
+        if (BoxesContainer.GetInstance().BoxesCount() == 0)
+        {
+            tempTarget.position = new Vector3(Random.Range(-10f, 10f), 0, Random.Range(-5f, 5f));
+            target = tempTarget;
+            return;
+        }
 
         if (target != null)
             target.gameObject.GetComponent<AgentTarget>().UnSubscribeOnTargetTaken(this);
-        
+
         target = BoxesContainer.GetInstance().GetNearestBox(transform.position);
         currentBox = target;
 

@@ -309,4 +309,5 @@ MonoBehaviour:
   MaxStep: 0
   rotateDumping: 1
   takenBoxPos: {fileID: 5508310208393142081}
+  tempPosPrefab: {fileID: 224596135665860665, guid: b39c40a79aa73e84a813e17223d5643d, type: 3}
   forceMultiplier: 0.02
