@@ -19,6 +19,7 @@ public class LevelSpawner : MonoBehaviour
     [SerializeField] GameObject plane;
     [SerializeField] GameObject soldier;
 
+    Coroutine timerCoroutine;
     int time;
 
     void Start()
@@ -28,7 +29,7 @@ public class LevelSpawner : MonoBehaviour
         SpawnLevelEnvirement();
         SpawnBoxes();
         StartCoroutine(SpawnEnemies());
-        StartCoroutine(Timer());
+        timerCoroutine = StartCoroutine(Timer());
     }
 
     void SpawnLevelEnvirement()
@@ -58,7 +59,7 @@ public class LevelSpawner : MonoBehaviour
 
             while(true)
             {
-                pos = new Vector3(Random.Range(-spawnZone.x, spawnZone.x), 2, Random.Range(-spawnZone.y, spawnZone.y));
+                pos = new Vector3(Random.Range(-spawnZone.x, spawnZone.x), 1, Random.Range(-spawnZone.y, spawnZone.y));
 
                 var collider = Physics.OverlapSphere(pos, 0.5f, 7);
 
@@ -123,5 +124,21 @@ public class LevelSpawner : MonoBehaviour
         }
 
         print("level complete");
+    }
+
+    public void ExtraTime(int value)
+    {
+        time = Mathf.Max(0, time - value);
+        timer.UpdateTime(time);
+
+        StopCoroutine(timerCoroutine);
+
+        timerCoroutine = StartCoroutine(Timer());
+
+        if (time == 0)
+        {
+            StopAllCoroutines();
+            print("level complete");
+        }
     }
 }

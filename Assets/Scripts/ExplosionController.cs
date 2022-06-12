@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class ExplosionController : MonoBehaviour
 {
-    private void Start()
-    {
-        Hide();
-    }
+    [SerializeField] bool needToDestroy = true;
 
     public void Hide()
     {
+        if(needToDestroy)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         gameObject.SetActive(false);
     }
 }

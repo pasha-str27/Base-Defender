@@ -26,6 +26,8 @@ public class SoldierAgent : Agent
     {
         rb = gameObject.GetComponent<Rigidbody>();
 
+        EnemyContainer.GetInstance().AddEnemy(this);
+
         var collider = gameObject.GetComponent<BoxCollider>();
         collider.material.frictionCombine = PhysicMaterialCombine.Minimum;
 
@@ -132,6 +134,7 @@ public class SoldierAgent : Agent
 
             AddReward(1f);
 
+            EnemyContainer.GetInstance().RemoveEnemy(this);
             Destroy(gameObject);
 
             return;
@@ -142,6 +145,7 @@ public class SoldierAgent : Agent
         {
             AddReward(isTargetStollen ? 1f : -3);
 
+            EnemyContainer.GetInstance().RemoveEnemy(this);
             BoxesContainer.GetInstance().DeleteBox();
             Destroy(target.gameObject);
             Destroy(gameObject);
@@ -213,6 +217,8 @@ public class SoldierAgent : Agent
         currentBox.gameObject.GetComponent<BoxCollider>().enabled = true;
 
         currentBox.parent = null;
+
+        EnemyContainer.GetInstance().RemoveEnemy(this);
 
         Destroy(gameObject);
     }

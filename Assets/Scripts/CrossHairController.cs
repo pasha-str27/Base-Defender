@@ -108,7 +108,7 @@ public class CrossHairController : MonoBehaviour
 
         canCheckVelocity = false;
 
-        Invoke("LetCheckVelocity", 0.1f);
+        Invoke("LetCheckVelocity", 0.5f);
 
         StartCoroutine(Recharge());
     }
