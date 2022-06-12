@@ -142,8 +142,10 @@ public class SoldierAgent : Agent
         {
             AddReward(isTargetStollen ? 1f : -3);
 
+            BoxesContainer.GetInstance().DeleteBox();
             Destroy(target.gameObject);
             Destroy(gameObject);
+
             return;
 
             //EndEpisode();
@@ -185,12 +187,13 @@ public class SoldierAgent : Agent
         }
 
         if (target != null)
-            target.gameObject.GetComponent<AgentTarget>().UnSubscribeOnTargetTaken(this);
+            target.gameObject.GetComponent<AgentTarget>()?.UnSubscribeOnTargetTaken(this);
 
         target = BoxesContainer.GetInstance().GetNearestBox(transform.position);
         currentBox = target;
 
-        target.gameObject.GetComponent<AgentTarget>().SubscribeOnTargetTaken(this);
+        if(target)
+            target.gameObject.GetComponent<AgentTarget>().SubscribeOnTargetTaken(this);
     }
 
     void AddBoxToBody(Transform box)

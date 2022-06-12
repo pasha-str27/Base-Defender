@@ -7,6 +7,8 @@ public class LevelSpawner : MonoBehaviour
     [SerializeField] Vector2 screenSize;
     [SerializeField] int timePerBox = 15;
 
+    [SerializeField] Timer timer;
+
     [SerializeField] float minEnemySpawnDelay = 1;
     [SerializeField] float maxEnemySpawnDelay = 5;
 
@@ -46,6 +48,7 @@ public class LevelSpawner : MonoBehaviour
         int count = Random.Range(5, 21);
 
         time = count * timePerBox + 60 - (count * timePerBox) % 60;
+        BoxesContainer.GetInstance().SetBoxesOnScreen(count);
 
         var spawnZone = screenSize - new Vector2(6, 1);
 
@@ -108,6 +111,17 @@ public class LevelSpawner : MonoBehaviour
 
     IEnumerator Timer()
     {
-        yield break;
+        timer.UpdateTime(time);
+
+        while (time > 0)
+        {
+            yield return new WaitForSeconds(1);
+
+            time--;
+
+            timer.UpdateTime(time);
+        }
+
+        print("level complete");
     }
 }

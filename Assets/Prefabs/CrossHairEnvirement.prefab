@@ -1556,6 +1556,7 @@ MonoBehaviour:
   minMoveZoneScale: 0.3
   rechargeTime: 1.5
   rechargeSpeed: 1
+  movementSpeed: 3
   rechargeIndicator: {fileID: 0}
   agentRB: {fileID: 6501638036002813195}
   crosshairWallls: {fileID: 878225456}

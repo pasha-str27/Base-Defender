@@ -10,6 +10,8 @@ class BoxesContainer
 
     List<Transform> boxesOnLevel;
 
+    int boxesOnScreen;
+
     BoxesContainer()
     {
         boxesOnLevel = new List<Transform>();
@@ -43,8 +45,22 @@ class BoxesContainer
     public void RemoveBox(Transform box)
     {
         boxesOnLevel.Remove(box);
+    }
 
-        if (boxesOnLevel.Count == 0)
+    public void SetBoxesOnScreen(int count)
+    {
+        boxesOnScreen = count;
+
+        UIManager.instance.UpdateBoxesCount(boxesOnScreen);
+    }
+
+    public void DeleteBox()
+    {
+        --boxesOnScreen;
+
+        UIManager.instance.UpdateBoxesCount(boxesOnScreen);
+
+        if (boxesOnScreen == 0)
             Debug.LogError("GAME OVER!!!");
     }
 }
