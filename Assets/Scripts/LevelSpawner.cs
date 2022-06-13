@@ -29,7 +29,10 @@ public class LevelSpawner : MonoBehaviour
         SpawnLevelEnvirement();
         SpawnBoxes();
         StartCoroutine(SpawnEnemies());
-        timerCoroutine = StartCoroutine(Timer());
+
+        timer.UpdateTime(time);
+
+        FadeAnimationController.instance.SubscribeOnFadeInFinish(delegate { Time.timeScale = 0; timerCoroutine = StartCoroutine(Timer()); });
     }
 
     void SpawnLevelEnvirement()
@@ -112,8 +115,6 @@ public class LevelSpawner : MonoBehaviour
 
     IEnumerator Timer()
     {
-        timer.UpdateTime(time);
-
         while (time > 0)
         {
             yield return new WaitForSeconds(1);

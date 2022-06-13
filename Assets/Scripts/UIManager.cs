@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -43,5 +44,16 @@ public class UIManager : MonoBehaviour
     public void ActivateNuclearWepon()
     {
 
+    }
+
+    public void ResumeGame() => Time.timeScale = 1;
+
+    public void PauseGame() => Time.timeScale = 0;
+
+    public void LoadScene(string scene)
+    {
+        Time.timeScale = 1;
+        FadeAnimationController.instance.SubscribeOnFadeOutFinish(delegate { SceneManager.LoadScene(scene); Time.timeScale = 1; });
+        FadeAnimationController.instance.FadeOut();
     }
 }
