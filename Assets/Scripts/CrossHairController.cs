@@ -60,7 +60,7 @@ public class CrossHairController : MonoBehaviour
             agentRB.simulated = false;      
 
             if(!changedOffset)
-                GetComponent<BoxCollider2D>().offset = agentRB.position - rb.position;
+                GetComponent<BoxCollider2D>().offset = agentRB.transform.localPosition;
 
             changedOffset = true;
             rb.velocity = dir * movementSpeed;
@@ -82,11 +82,10 @@ public class CrossHairController : MonoBehaviour
 
     void Fire()
     {
-        rb.simulated = true;
         agentRB.simulated = false;
+        rb.simulated = true;
 
-        GetComponent<BoxCollider2D>().offset = agentRB.position - rb.position;
-
+        GetComponent<BoxCollider2D>().offset = agentRB.transform.localPosition;
         moveZone.localScale = Vector3.one * (maxMoveZoneScale - Time.deltaTime);
 
         var explosionPosition = transform.GetChild(0).position;
