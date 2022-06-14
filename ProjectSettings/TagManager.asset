@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - Target
+  - Walls
+  - Explosion
   layers:
   - Default
   - TransparentFX
@@ -11,15 +15,15 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Walls
+  - LevelEnvirement
+  - Crosshair
+  - Soldier
+  - CrosshairPhysic
+  - CrosshairWall
+  - LevelWall
+  - ExplosionZone
+  - Boxes
   - 
   - 
   - 
