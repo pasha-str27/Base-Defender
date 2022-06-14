@@ -6,11 +6,13 @@ class EventManager
 
     UnityEvent levelComplete;
     UnityEvent gameOver;
+    UnityEvent nuclearExplosion;
 
     EventManager()
     {
         levelComplete = new UnityEvent();
         gameOver = new UnityEvent();
+        nuclearExplosion = new UnityEvent();
     }
 
     public static EventManager GetInstance()
@@ -29,9 +31,14 @@ class EventManager
 
     public void LevelComplete() => levelComplete.Invoke();
 
+    public void SubscribeOnNuclearExplosion(UnityAction action) => nuclearExplosion.AddListener(action);
+
+    public void NuclearExplosion() => nuclearExplosion.Invoke();
+
     public void Reset()
     {
         gameOver.RemoveAllListeners();
         levelComplete.RemoveAllListeners();
+        nuclearExplosion.RemoveAllListeners();
     }
 }

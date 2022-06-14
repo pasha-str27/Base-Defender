@@ -12,7 +12,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] LevelSpawner levelSpawner;
     [SerializeField] GameObject explosionPrefab;
     [SerializeField] GameObject explosionZonePrefab;
+    [SerializeField] GameObject nuclearExplosion;
 
+    [SerializeField] GameObject nuclearPanel;
     [SerializeField] GameObject winPanel;
     [SerializeField] GameObject losePanel;
 
@@ -49,7 +51,15 @@ public class UIManager : MonoBehaviour
 
     public void ActivateNuclearWepon()
     {
+        Instantiate(nuclearExplosion, Vector2.zero, Quaternion.identity);
 
+        Invoke("ShowNuclearPanel", 3);
+    }
+
+    void ShowNuclearPanel()
+    {
+        nuclearPanel.SetActive(true);
+        Time.timeScale = 0;
     }
 
     public void ResumeGame() => Time.timeScale = 1;
@@ -59,6 +69,7 @@ public class UIManager : MonoBehaviour
     public void LoadScene(string scene)
     {
         Time.timeScale = 1;
+
         FadeAnimationController.instance.SubscribeOnFadeOutFinish(delegate { EventManager.GetInstance().Reset(); });
         FadeAnimationController.instance.SubscribeOnFadeOutFinish(delegate { BoxesContainer.GetInstance().Clear(); });
         FadeAnimationController.instance.SubscribeOnFadeOutFinish(delegate { EnemyContainer.GetInstance().Clear(); });

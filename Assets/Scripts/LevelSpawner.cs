@@ -19,11 +19,15 @@ public class LevelSpawner : MonoBehaviour
     [SerializeField] GameObject plane;
     [SerializeField] GameObject soldier;
 
+    List<GameObject> objectsOnScreen;
+
     Coroutine timerCoroutine;
     int time;
 
     void Start()
     {
+        objectsOnScreen = new List<GameObject>();
+
         plane.GetComponent<MeshRenderer>().material = planeMaterials[Random.Range(0, planeMaterials.Length)];
 
         SpawnLevelEnvirement();
@@ -32,7 +36,21 @@ public class LevelSpawner : MonoBehaviour
 
         timer.UpdateTime(time);
 
+        EventManager.GetInstance().SubscribeOnNuclearExplosion(DestroyAllObjects);
+        EventManager.GetInstance().SubscribeOnNuclearExplosion(StopAllCoroutines);
+
         FadeAnimationController.instance.SubscribeOnFadeInFinish(delegate { Time.timeScale = 0; timerCoroutine = StartCoroutine(Timer()); });
+    }
+
+    void DestroyAllObjects()
+    {
+        for (int i = 0; i < objectsOnScreen.Count; ++i)
+            Destroy(objectsOnScreen[i]);
+
+        objectsOnScreen.Clear();
+
+        EnemyContainer.GetInstance().DestroyAll();
+        BoxesContainer.GetInstance().DestroyAll();
     }
 
     void SpawnLevelEnvirement()
@@ -43,7 +61,9 @@ public class LevelSpawner : MonoBehaviour
         {
             var pos = new Vector3(Random.Range(-screenSize.x, screenSize.x), 1, Random.Range(-screenSize.y, screenSize.y));
             var rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
-            Instantiate(levelEnvirement[Random.Range(0, levelEnvirement.Length)], pos, rotation);
+            var go = Instantiate(levelEnvirement[Random.Range(0, levelEnvirement.Length)], pos, rotation);
+
+            objectsOnScreen.Add(go);
         }
     }
 

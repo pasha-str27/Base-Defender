@@ -30,4 +30,12 @@ class EnemyContainer
     public List<SoldierAgent> GetEnemies() => enemiesOnLevel;
 
     public void Clear() => enemiesOnLevel.Clear();
+
+    public void DestroyAll()
+    {
+        for (int i = 0; i < enemiesOnLevel.Count; ++i)
+            UnityEngine.Object.Destroy(enemiesOnLevel[i].gameObject);
+
+        Clear();
+    }
 }

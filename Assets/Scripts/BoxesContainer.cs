@@ -69,4 +69,12 @@ class BoxesContainer
         boxesOnScreen = 0;
         boxesOnLevel.Clear();
     }
+
+    public void DestroyAll()
+    {
+        for (int i = 0; i < boxesOnLevel.Count; ++i)
+            UnityEngine.Object.Destroy(boxesOnLevel[i].gameObject);
+
+        Clear();
+    }
 }
