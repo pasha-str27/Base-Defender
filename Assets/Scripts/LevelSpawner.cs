@@ -52,6 +52,7 @@ public class LevelSpawner : MonoBehaviour
         int count = Random.Range(5, 21);
 
         time = count * timePerBox + 60 - (count * timePerBox) % 60;
+
         BoxesContainer.GetInstance().SetBoxesOnScreen(count);
 
         var spawnZone = screenSize - new Vector2(6, 1);
@@ -124,7 +125,9 @@ public class LevelSpawner : MonoBehaviour
             timer.UpdateTime(time);
         }
 
-        print("level complete");
+        PlayerPrefs.SetInt("LevelNumber", PlayerPrefs.GetInt("LevelNumber") + 1);
+
+        EventManager.GetInstance().LevelComplete();
     }
 
     public void ExtraTime(int value)

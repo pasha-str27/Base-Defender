@@ -133,7 +133,8 @@ public class CrossHairController : MonoBehaviour
 
     private void OnDisable()
     {
-        playerInput.Disable();
+        if(playerInput != null)
+            playerInput.Disable();
     }
 
     void Start()

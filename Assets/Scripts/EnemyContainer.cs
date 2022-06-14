@@ -28,4 +28,6 @@ class EnemyContainer
     public void RemoveEnemy(SoldierAgent enemy) => enemiesOnLevel.Remove(enemy);
 
     public List<SoldierAgent> GetEnemies() => enemiesOnLevel;
+
+    public void Clear() => enemiesOnLevel.Clear();
 }

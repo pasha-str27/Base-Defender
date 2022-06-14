@@ -7,7 +7,7 @@ public class Timer : MonoBehaviour
 {
     TextMeshProUGUI timerText;
 
-    void Start() => timerText = GetComponent<TextMeshProUGUI>();
+    void OnEnable() => timerText = GetComponent<TextMeshProUGUI>();
 
     public void UpdateTime(int time)
     {

@@ -13,12 +13,18 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject explosionPrefab;
     [SerializeField] GameObject explosionZonePrefab;
 
+    [SerializeField] GameObject winPanel;
+    [SerializeField] GameObject losePanel;
+
     private void Awake()
     {
         if (instance != null)
             Destroy(instance);
 
         instance = this;
+
+        EventManager.GetInstance().SubscribeOnGameOver(delegate { losePanel.SetActive(true); Time.timeScale = 0; });
+        EventManager.GetInstance().SubscribeOnLevelComplete(delegate { winPanel.SetActive(true); Time.timeScale = 0; });
     }
 
     public void UpdateBoxesCount(int count) => boxesCount.text = count.ToString();
@@ -53,6 +59,9 @@ public class UIManager : MonoBehaviour
     public void LoadScene(string scene)
     {
         Time.timeScale = 1;
+        FadeAnimationController.instance.SubscribeOnFadeOutFinish(delegate { EventManager.GetInstance().Reset(); });
+        FadeAnimationController.instance.SubscribeOnFadeOutFinish(delegate { BoxesContainer.GetInstance().Clear(); });
+        FadeAnimationController.instance.SubscribeOnFadeOutFinish(delegate { EnemyContainer.GetInstance().Clear(); });
         FadeAnimationController.instance.SubscribeOnFadeOutFinish(delegate { SceneManager.LoadScene(scene); Time.timeScale = 1; });
         FadeAnimationController.instance.FadeOut();
     }

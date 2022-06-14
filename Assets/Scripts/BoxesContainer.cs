@@ -61,6 +61,12 @@ class BoxesContainer
         UIManager.instance.UpdateBoxesCount(boxesOnScreen);
 
         if (boxesOnScreen == 0)
-            Debug.LogError("GAME OVER!!!");
+            EventManager.GetInstance().GameOver();
+    }
+
+    public void Clear()
+    {
+        boxesOnScreen = 0;
+        boxesOnLevel.Clear();
     }
 }

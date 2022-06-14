@@ -14,7 +14,7 @@ public class CrossHairAgent : Agent
 
     [SerializeField] float forceMultiplier = 10;
 
-    void Start()
+    void Awake()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
         _transform = transform;
